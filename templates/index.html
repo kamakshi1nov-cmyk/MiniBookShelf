@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mini Book Shelf</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+
+        <h1>📚 Mini Book Shelf</h1>
+
+        <p>Your Personal Digital Library</p>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- Add Book -->
+        <div class="form-box">
+
+            <h2 class="section-title">➕ Add New Book</h2>
+
+            <form method="POST" action="/add">
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label>Book Title</label>
+                        <input type="text"
+                               name="title"
+                               placeholder="Enter book title"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text"
+                               name="author"
+                               placeholder="Enter author name"
+                               required>
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text"
+                               name="category"
+                               placeholder="Example: Fiction"
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="number"
+                               name="year"
+                               placeholder="Example: 2020"
+                               required>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Price (₹)</label>
+
+                    <input type="number"
+                           name="price"
+                           placeholder="Enter price"
+                           required>
+
+                </div>
+
+
+                <button class="add-button" type="submit">
+                    ➕ Add Book
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- Search -->
+        <div class="search-box">
+
+            <h2 class="section-title">🔍 Search Books</h2>
+
+            <form class="search-form"
+                  method="GET"
+                  action="/">
+
+                <input type="text"
+                       name="search"
+                       placeholder="Search by book title..."
+                       value="{{ search }}">
+
+                <button class="search-button"
+                        type="submit">
+                    Search
+                </button>
+
+                <a class="all-button"
+                   href="/">
+                    Show All
+                </a>
+
+            </form>
+
+        </div>
+
+
+        <!-- Books -->
+        <h2 class="section-title">📖 My Books</h2>
+
+
+        {% for book in books %}
+
+        <div class="book-card">
+
+            <div class="book-title">
+                📕 {{ book.title }}
+            </div>
+
+
+            <div class="book-details">
+
+                <div class="detail">
+
+                    <strong>Author</strong>
+
+                    {{ book.author }}
+
+                </div>
+
+
+                <div class="detail">
+
+                    <strong>Category</strong>
+
+                    {{ book.category }}
+
+                </div>
+
+
+                <div class="detail">
+
+                    <strong>Publication Year</strong>
+
+                    {{ book.year }}
+
+                </div>
+
+
+                <div class="detail">
+
+                    <strong>Price</strong>
+
+                    ₹{{ book.price }}
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a class="edit-button"
+                   href="/edit/{{ book._id }}">
+                    ✏️ Edit
+                </a>
+
+                <a class="delete-button"
+                   href="/delete/{{ book._id }}"
+                   onclick="return confirm('Are you sure you want to delete this book?');">
+                    🗑️ Delete
+                </a>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="no-books">
+
+            <p>📚 No books found.</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>
